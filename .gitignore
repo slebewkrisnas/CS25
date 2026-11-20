@@ -1,0 +1,8 @@
+# File referensi & temporary
+cs25_app_interactive_ui_ux_prototype.html
+PROMPT_SIAP_KIRIM_KE_AI_JASAKU.md
+tests/
+*.log
+.DS_Store
+Thumbs.db
+node_modules/

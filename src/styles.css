@@ -1,0 +1,124 @@
+/* JASAKU Design System Styling Tokens (Inspired by CS25 Studio UI/UX) */
+:root {
+  --primary-teal: #16627A;
+  --primary-teal-dark: #0F495B;
+  --primary-teal-light: #2087A7;
+  --primary-teal-soft: #E7F4F7;
+  --accent-orange: #EE7A34;
+  --accent-orange-light: #F98F4E;
+  --accent-orange-soft: #FFF3EB;
+  --neutral-dark: #0E2A35;
+  --neutral-body: #334155;
+  --neutral-light: #F4F8FA;
+  --surface-white: #FFFFFF;
+  --status-safe: #10B981;
+  --status-warning: #F59E0B;
+  --status-danger: #EF4444;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  color: #0E2A35;
+  background-color: #EBF2F5;
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Subtle circuit pattern background for desktop studio preview (Matching CS25) */
+.studio-bg {
+  background-color: #E9F1F4;
+  background-image:
+    radial-gradient(circle at 12% 18%, rgba(32, 135, 167, 0.14) 0%, transparent 38%),
+    radial-gradient(circle at 88% 82%, rgba(238, 122, 52, 0.12) 0%, transparent 40%),
+    linear-gradient(to right, rgba(22, 98, 122, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(22, 98, 122, 0.04) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 32px 32px, 32px 32px;
+}
+
+/* Custom & Hidden Scrollbars */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #F1F5F9;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 9999px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
+}
+
+/* Shadows matching CS25 */
+.shadow-card {
+  box-shadow: 0 4px 20px -4px rgba(22, 98, 122, 0.08);
+}
+.shadow-phone {
+  box-shadow: 0 25px 70px -15px rgba(14, 42, 53, 0.28), 0 0 0 1px rgba(22, 98, 122, 0.08);
+}
+.shadow-nav {
+  box-shadow: 0 -6px 24px -6px rgba(14, 42, 53, 0.08);
+}
+
+/* Animations */
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-screen {
+  animation: fadeSlideUp 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.animate-fade-in {
+  animation: fadeSlideUp 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes pulseRing {
+  0% { transform: scale(0.85); opacity: 0.75; }
+  100% { transform: scale(1.9); opacity: 0; }
+}
+.pulse-ring::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  background: currentColor;
+  animation: pulseRing 1.6s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+}
+
+@keyframes floatPin {
+  0%, 100% { transform: translate(-50%, -100%) translateY(0px); }
+  50% { transform: translate(-50%, -100%) translateY(-5px); }
+}
+.pin-bounce {
+  animation: floatPin 1.8s ease-in-out infinite;
+}
+
+/* Mobile native full-height behavior */
+@media (max-width: 639px) {
+  .phone-shell {
+    width: 100vw !important;
+    height: 100dvh !important;
+    max-height: 100dvh !important;
+    border-radius: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+  .studio-wrapper {
+    padding: 0 !important;
+  }
+}
