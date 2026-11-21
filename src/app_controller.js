@@ -97,22 +97,22 @@ function applyVoucherCode() {
   const field = document.getElementById('voucher-input-field');
   const code = (field ? field.value : '').trim().toUpperCase();
 
-  if (code === 'GOAT25' || code === 'MHSBARU') {
-    appState.draftBooking.voucherApplied = { code: 'GOAT25', discount: 15000 };
-    showToast('🎉 Kupon GOAT25 berhasil! Potongan Rp15.000 diterapkan.');
+  if (code === 'JOKOWI' || code === 'GOAT25' || code === 'MHSBARU') {
+    appState.draftBooking.voucherApplied = { code: 'JOKOWI', discount: 15000 };
+    showToast('🎉 Kupon JOKOWI berhasil! Potongan Rp15.000 diterapkan.');
   } else if (code === '') {
     appState.draftBooking.voucherApplied = null;
     showToast('Kupon dihapus.');
   } else {
-    showToast('⚠️ Kode kupon tidak valid. Gunakan: GOAT25');
+    showToast('⚠️ Kode kupon tidak valid. Gunakan: JOKOWI');
   }
   renderCustomerApp();
 }
 
 function applyPromoQuick() {
-  appState.draftBooking.voucherApplied = { code: 'GOAT25', discount: 15000 };
+  appState.draftBooking.voucherApplied = { code: 'JOKOWI', discount: 15000 };
   openServiceDetail('srv-ac-split');
-  showToast('🎁 Kupon GOAT25 otomatis aktif untuk servis AC!');
+  showToast('🎁 Kupon JOKOWI otomatis aktif untuk servis AC!');
 }
 
 function openPaymentModal() {
