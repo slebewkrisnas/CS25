@@ -739,10 +739,13 @@ function renderCheckoutScreen() {
           ${appState.draftBooking.voucherApplied ? `
             <div class="mt-2.5 flex items-center justify-between text-xs text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-xl border border-emerald-200">
               <span class="font-bold">✓ Kupon '${appState.draftBooking.voucherApplied.code}' aktif!</span>
-              <span class="font-black">- ${formatRupiah(appState.draftBooking.voucherApplied.discount)}</span>
+              <div class="flex items-center gap-2">
+                <span class="font-black">- ${formatRupiah(appState.draftBooking.voucherApplied.discount)}</span>
+                <button onclick="removeVoucherCode()" class="text-[10px] text-red-500 hover:text-red-700 font-bold underline ml-1">Hapus</button>
+              </div>
             </div>
           ` : `
-            <p class="text-[10px] text-slate-400 mt-1.5">Tip: Masukkan <strong>JOKOWI</strong> untuk diskon Rp15.000</p>
+            <p class="text-[10px] text-slate-400 mt-1.5">Tip: Masukkan <strong>JOKOWI</strong> lalu klik Terapkan untuk diskon Rp15.000</p>
           `}
         </div>
 

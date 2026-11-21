@@ -58,6 +58,9 @@ function openServiceDetail(serviceId) {
   if (srv.packages && srv.packages.length > 0) {
     appState.draftBooking.packageId = srv.packages[0].id;
   }
+  // Reset kupon agar alur pemesanan normal tidak otomatis terdiskon (harus diketik & diterapkan manual)
+  appState.draftBooking.voucherApplied = null;
+  appState.draftBooking.voucherInput = '';
   appState.customerSubscreen = 'serviceDetail';
   renderCustomerApp();
   const vp = document.getElementById('customer-viewport');
@@ -110,9 +113,18 @@ function applyVoucherCode() {
 }
 
 function applyPromoQuick() {
-  appState.draftBooking.voucherApplied = { code: 'JOKOWI', discount: 15000 };
+  // Tidak otomatis menerapkan kupon, user harus mengetik dan menerapkan sendiri di checkout
+  appState.draftBooking.voucherApplied = null;
+  appState.draftBooking.voucherInput = '';
   openServiceDetail('srv-ac-split');
-  showToast('🎁 Kupon JOKOWI otomatis aktif untuk servis AC!');
+  showToast('💡 Masukkan kode kupon JOKOWI di halaman checkout untuk diskon Rp15.000!');
+}
+
+function removeVoucherCode() {
+  appState.draftBooking.voucherApplied = null;
+  appState.draftBooking.voucherInput = '';
+  showToast('Kupon diskon dibatalkan.');
+  renderCustomerApp();
 }
 
 function openPaymentModal() {
@@ -177,6 +189,10 @@ function confirmSimulatedPayment(finalTotal) {
     ip: '192.168.1.1',
     status: 'SUCCESS'
   });
+
+  // Reset draft booking voucher for next session
+  appState.draftBooking.voucherApplied = null;
+  appState.draftBooking.voucherInput = '';
 
   showToast('✅ Pembayaran Berhasil! Dana dikunci aman di Rekening Bersama (Escrow Vault).');
   appState.customerSubscreen = 'tracking';
