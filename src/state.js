@@ -35,7 +35,7 @@ function getInitialState() {
       addressDetail: 'Jl. Balai Kota No. 12, Kel. Tikala Ares, Kec. Tikala, Kota Manado, Sulawesi Utara',
       notes: 'AC kamar lantai 2 meneteskan air jika dinyalakan lebih dari 1 jam.',
       voucherInput: '',
-      voucherApplied: null, // { code: 'MHSBARU', discount: 15000 }
+      voucherApplied: null, // { code: 'GOAT25', discount: 15000 }
       protectionFee: 2000,
       paymentMethod: 'qris' // 'qris' | 'va_bca' | 'va_mandiri'
     },
@@ -453,7 +453,7 @@ function getInitialState() {
         partnerPhone: '0857-2049-3312',
         basePrice: 70000,
         protectionFee: 2000,
-        discount: 15000, // Kupon MHSBARU
+        discount: 15000, // Kupon GOAT25
         totalInvoice: 57000,
         paymentMethod: 'BCA Virtual Account',
         paidAt: '20 Nov 2026, 19:40 WITA',
