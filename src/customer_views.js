@@ -241,8 +241,8 @@ function renderCustomerShell() {
   return `
     <div class="studio-bg min-h-screen flex flex-col items-center justify-start p-0 sm:py-6 select-none font-sans">
       
-      <!-- Top Studio Banner Bar (DI ATAS GAMBAR HP - Akses Cepat Admin & Ganti Peran) -->
-      <header class="w-full max-w-6xl mx-auto px-4 sm:px-6 mb-4 flex items-center justify-between bg-white/95 backdrop-blur-md py-3 px-5 rounded-2xl shadow-card border border-slate-200/80 z-20">
+      <!-- Top Studio Banner Bar (DI ATAS GAMBAR HP - Akses Cepat Admin & Ganti Peran - Desktop & Tablet) -->
+      <header class="w-full max-w-6xl mx-auto px-4 sm:px-6 mb-4 hidden sm:flex items-center justify-between bg-white/95 backdrop-blur-md py-3 px-5 rounded-2xl shadow-card border border-slate-200/80 z-20">
         <div class="flex items-center gap-3">
           <div class="p-1.5 bg-white rounded-xl shadow-xs border border-slate-100 shrink-0">
             <img src="${window.JASAKU_LOGO_BASE64}" alt="JASAKU" class="h-7 w-auto object-contain">
@@ -266,6 +266,17 @@ function renderCustomerShell() {
           </button>
         </div>
       </header>
+
+      <!-- Mobile Floating Quick Switcher (Non-intrusive floating pill on top-right, visible ONLY on mobile) -->
+      <aside aria-label="Mobile Role Switcher" class="sm:hidden fixed top-2.5 right-2.5 z-50 flex items-center gap-1.5 pointer-events-auto">
+        <button onclick="switchRole('gate')" class="bg-[#0E2A35]/85 hover:bg-[#0E2A35] backdrop-blur-md text-white text-[10px] font-bold px-2 py-1 rounded-full shadow-lg border border-white/20 transition active:scale-95">
+          Peran ↔
+        </button>
+        <button onclick="switchRole('admin')" class="bg-[#16627A]/95 hover:bg-[#0F495B] backdrop-blur-md text-white text-[10px] font-bold px-2.5 py-1 rounded-full shadow-lg border border-white/20 transition active:scale-95 flex items-center gap-1">
+          <span>Admin</span>
+          <span class="text-[9px]">↗</span>
+        </button>
+      </aside>
 
       <!-- Main Studio Layout: Left Interactive Phone + Right Desktop Prototype Guide -->
       <div class="studio-wrapper w-full max-w-6xl mx-auto sm:px-6 flex flex-col lg:flex-row items-center lg:items-start justify-center gap-8">
@@ -293,7 +304,7 @@ function renderCustomerShell() {
           </div>
 
           <!-- BOTTOM NAVIGATION (PRD Rule 1.B: EXACTLY 4 TABS: HOME, PESANAN, CHAT, PROFIL) -->
-          <nav id="app-bottom-nav" class="bg-white border-t border-slate-100 px-2 pt-2 pb-3 sm:pb-3.5 shadow-nav z-30 shrink-0 select-none">
+          <nav id="app-bottom-nav" class="bg-white border-t border-slate-100 px-2 pt-2 pb-3 sm:pb-3.5 shadow-nav z-30 shrink-0 select-none ${appState.customerSubscreen ? 'hidden' : ''}" style="padding-bottom: max(12px, env(safe-area-inset-bottom, 12px));">
             <div class="grid grid-cols-4 gap-1">
               
               <!-- TAB 1: HOME -->

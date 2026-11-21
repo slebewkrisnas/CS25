@@ -170,18 +170,57 @@ body {
   animation: floatPin 1.8s ease-in-out infinite;
 }
 
-/* Mobile native full-height behavior */
+/* Mobile native full-height behavior & docked bottom navigation */
 @media (max-width: 639px) {
+  html, body {
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+  }
   .phone-shell {
     width: 100vw !important;
     height: 100dvh !important;
+    height: 100vh; /* Fallback for legacy webview */
+    height: 100dvh;
     max-height: 100dvh !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
     border-radius: 0 !important;
     border: none !important;
     box-shadow: none !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+    z-index: 20 !important;
+    background-color: #F4F8FA !important;
   }
   .studio-wrapper {
     padding: 0 !important;
+    margin: 0 !important;
+    gap: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+  }
+  .studio-bg {
+    padding: 0 !important;
+    background-image: none !important;
+    background-color: #F4F8FA !important;
+  }
+  #customer-viewport {
+    flex: 1 1 0% !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    overscroll-behavior-y: contain !important;
+  }
+  #app-bottom-nav {
+    flex-shrink: 0 !important;
+    width: 100% !important;
+    position: relative !important;
+    z-index: 30 !important;
+    padding-bottom: max(12px, env(safe-area-inset-bottom, 12px)) !important;
   }
 }
 
@@ -1170,8 +1209,8 @@ function renderCustomerShell() {
   return `
     <div class="studio-bg min-h-screen flex flex-col items-center justify-start p-0 sm:py-6 select-none font-sans">
       
-      <!-- Top Studio Banner Bar (DI ATAS GAMBAR HP - Akses Cepat Admin & Ganti Peran) -->
-      <header class="w-full max-w-6xl mx-auto px-4 sm:px-6 mb-4 flex items-center justify-between bg-white/95 backdrop-blur-md py-3 px-5 rounded-2xl shadow-card border border-slate-200/80 z-20">
+      <!-- Top Studio Banner Bar (DI ATAS GAMBAR HP - Akses Cepat Admin & Ganti Peran - Desktop & Tablet) -->
+      <header class="w-full max-w-6xl mx-auto px-4 sm:px-6 mb-4 hidden sm:flex items-center justify-between bg-white/95 backdrop-blur-md py-3 px-5 rounded-2xl shadow-card border border-slate-200/80 z-20">
         <div class="flex items-center gap-3">
           <div class="p-1.5 bg-white rounded-xl shadow-xs border border-slate-100 shrink-0">
             <img src="${window.JASAKU_LOGO_BASE64}" alt="JASAKU" class="h-7 w-auto object-contain">
@@ -1195,6 +1234,17 @@ function renderCustomerShell() {
           </button>
         </div>
       </header>
+
+      <!-- Mobile Floating Quick Switcher (Non-intrusive floating pill on top-right, visible ONLY on mobile) -->
+      <aside aria-label="Mobile Role Switcher" class="sm:hidden fixed top-2.5 right-2.5 z-50 flex items-center gap-1.5 pointer-events-auto">
+        <button onclick="switchRole('gate')" class="bg-[#0E2A35]/85 hover:bg-[#0E2A35] backdrop-blur-md text-white text-[10px] font-bold px-2 py-1 rounded-full shadow-lg border border-white/20 transition active:scale-95">
+          Peran ↔
+        </button>
+        <button onclick="switchRole('admin')" class="bg-[#16627A]/95 hover:bg-[#0F495B] backdrop-blur-md text-white text-[10px] font-bold px-2.5 py-1 rounded-full shadow-lg border border-white/20 transition active:scale-95 flex items-center gap-1">
+          <span>Admin</span>
+          <span class="text-[9px]">↗</span>
+        </button>
+      </aside>
 
       <!-- Main Studio Layout: Left Interactive Phone + Right Desktop Prototype Guide -->
       <div class="studio-wrapper w-full max-w-6xl mx-auto sm:px-6 flex flex-col lg:flex-row items-center lg:items-start justify-center gap-8">
@@ -1222,7 +1272,7 @@ function renderCustomerShell() {
           </div>
 
           <!-- BOTTOM NAVIGATION (PRD Rule 1.B: EXACTLY 4 TABS: HOME, PESANAN, CHAT, PROFIL) -->
-          <nav id="app-bottom-nav" class="bg-white border-t border-slate-100 px-2 pt-2 pb-3 sm:pb-3.5 shadow-nav z-30 shrink-0 select-none">
+          <nav id="app-bottom-nav" class="bg-white border-t border-slate-100 px-2 pt-2 pb-3 sm:pb-3.5 shadow-nav z-30 shrink-0 select-none ${appState.customerSubscreen ? 'hidden' : ''}" style="padding-bottom: max(12px, env(safe-area-inset-bottom, 12px));">
             <div class="grid grid-cols-4 gap-1">
               
               <!-- TAB 1: HOME -->
@@ -2771,15 +2821,19 @@ function renderAdminShell() {
             </div>
           </div>
 
-          <!-- Switch to Customer View -->
-          <button onclick="switchRole('customer')" class="px-3 py-1.5 rounded-xl bg-orange-50 hover:bg-orange-100 text-[#EE7A34] text-xs font-bold border border-orange-200 transition flex items-center gap-1.5 shadow-sm">
+          <!-- Switch to Customer View & Gate -->
+          <button onclick="switchRole('customer')" class="px-2.5 sm:px-3 py-1.5 rounded-xl bg-orange-50 hover:bg-orange-100 text-[#EE7A34] text-xs font-bold border border-orange-200 transition flex items-center gap-1.5 shadow-sm">
             ${ICONS.home}
-            Buka Aplikasi Pelanggan →
+            <span class="hidden sm:inline">Buka Aplikasi Pelanggan →</span>
+            <span class="sm:hidden">App Pelanggan</span>
+          </button>
+          <button onclick="switchRole('gate')" class="sm:hidden px-2 py-1.5 rounded-xl bg-slate-100 text-slate-600 text-xs font-bold border border-slate-200 transition" title="Ganti Peran">
+            ${ICONS.exit}
           </button>
 
           <!-- Admin Profile Badge -->
-          <div class="flex items-center gap-2.5 pl-3 border-l border-slate-200">
-            <div class="w-8 h-8 rounded-full bg-[#16627A] text-white flex items-center justify-center text-xs font-black shadow-sm">
+          <div class="flex items-center gap-2.5 pl-2 sm:pl-3 border-l border-slate-200">
+            <div class="w-8 h-8 rounded-full bg-[#16627A] text-white flex items-center justify-center text-xs font-black shadow-sm shrink-0">
               KA
             </div>
             <div class="hidden lg:block text-left leading-tight">
@@ -2792,14 +2846,14 @@ function renderAdminShell() {
       </header>
 
       <!-- Main Admin Body (Fixed Left Sidebar + Scrollable Content) -->
-      <div class="flex-1 flex overflow-hidden">
+      <div class="flex-1 flex flex-col md:flex-row overflow-hidden">
         
-        <!-- FIXED LEFT SIDEBAR (PRD Rule 1.C: Width 250px-260px with 10 Modules) -->
-        <aside class="w-[260px] bg-white border-r border-slate-200 flex flex-col justify-between shrink-0 select-none shadow-sm h-[calc(100vh-64px)] sticky top-16">
+        <!-- FIXED LEFT SIDEBAR (PRD Rule 1.C: Width 250px-260px with 10 Modules, Responsive Horizontal on Mobile) -->
+        <aside class="w-full md:w-[260px] bg-white border-b md:border-b-0 md:border-r border-slate-200 flex flex-col justify-between shrink-0 select-none shadow-sm md:h-[calc(100vh-64px)] md:sticky md:top-16">
           
           <!-- Navigation Menu Modules List -->
-          <div class="py-4 px-3 space-y-1 overflow-y-auto custom-scrollbar flex-1">
-            <span class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider px-3 mb-2 block">
+          <div class="py-2.5 md:py-4 px-3 flex md:flex-col overflow-x-auto md:overflow-y-auto no-scrollbar custom-scrollbar gap-1.5 md:gap-0 md:space-y-1 shrink-0">
+            <span class="hidden md:block text-[10px] font-extrabold text-slate-400 uppercase tracking-wider px-3 mb-2">
               10 Modul Manajemen
             </span>
 
@@ -2815,7 +2869,7 @@ function renderAdminShell() {
               { id: 9, name: 'Rekonsiliasi & Laporan', icon: 'ledger', badge: null },
               { id: 10, name: 'Pengaturan & Log Keamanan', icon: 'settings', badge: 'PDP' }
             ].map(mod => `
-              <button onclick="showAdminModule(${mod.id})" class="w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-bold transition text-left ${activeModule === mod.id ? 'bg-[#16627A] text-white shadow-sm' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'}">
+              <button onclick="showAdminModule(${mod.id})" class="whitespace-nowrap md:whitespace-normal md:w-full flex items-center justify-between px-3 py-2 md:py-2.5 rounded-xl text-xs font-bold transition text-left shrink-0 ${activeModule === mod.id ? 'bg-[#16627A] text-white shadow-sm' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900 bg-slate-50 md:bg-transparent border border-slate-200 md:border-transparent'}">
                 <div class="flex items-center gap-2.5 truncate">
                   <span class="${activeModule === mod.id ? 'text-white' : 'text-slate-400'}">
                     ${ICONS[mod.icon] || ICONS.dashboard}
@@ -2823,7 +2877,7 @@ function renderAdminShell() {
                   <span class="truncate">${mod.name}</span>
                 </div>
                 ${mod.badge ? `
-                  <span class="text-[9px] font-black px-1.5 py-0.2 rounded-full text-white ${mod.badgeColor || (activeModule === mod.id ? 'bg-white/20 text-white' : 'bg-slate-200 text-slate-700')}">
+                  <span class="ml-2 text-[9px] font-black px-1.5 py-0.2 rounded-full text-white ${mod.badgeColor || (activeModule === mod.id ? 'bg-white/20 text-white' : 'bg-slate-200 text-slate-700')}">
                     ${mod.badge}
                   </span>
                 ` : ''}
@@ -2832,7 +2886,7 @@ function renderAdminShell() {
           </div>
 
           <!-- Bottom Exit Button (PRD Requirement: Keluar ke Pemilihan Demo) -->
-          <div class="p-3 border-t border-slate-200 shrink-0 bg-slate-50">
+          <div class="hidden md:block p-3 border-t border-slate-200 shrink-0 bg-slate-50">
             <button onclick="switchRole('gate')" class="w-full py-2.5 px-3 rounded-xl bg-white hover:bg-red-50 border border-slate-200 hover:border-red-300 text-red-600 font-extrabold text-xs transition flex items-center justify-center gap-2 shadow-sm">
               ${ICONS.exit}
               Keluar ke Pemilihan Demo
@@ -3967,12 +4021,16 @@ function navCustomerTab(tabName) {
   appState.customerTab = tabName;
   appState.customerSubscreen = null;
   renderCustomerApp();
+  const vp = document.getElementById('customer-viewport');
+  if (vp) vp.scrollTo({ top: 0, behavior: 'instant' });
 }
 
 function openCategory(catId) {
   appState.activeCategoryId = catId;
   appState.customerSubscreen = 'category';
   renderCustomerApp();
+  const vp = document.getElementById('customer-viewport');
+  if (vp) vp.scrollTo({ top: 0, behavior: 'instant' });
 }
 
 function openServiceDetail(serviceId) {
@@ -3984,6 +4042,8 @@ function openServiceDetail(serviceId) {
   }
   appState.customerSubscreen = 'serviceDetail';
   renderCustomerApp();
+  const vp = document.getElementById('customer-viewport');
+  if (vp) vp.scrollTo({ top: 0, behavior: 'instant' });
 }
 
 function selectPackage(pkgId) {
@@ -3994,6 +4054,8 @@ function selectPackage(pkgId) {
 function proceedToCheckout() {
   appState.customerSubscreen = 'checkout';
   renderCustomerApp();
+  const vp = document.getElementById('customer-viewport');
+  if (vp) vp.scrollTo({ top: 0, behavior: 'instant' });
 }
 
 function setBookingDate(dateStr) {
@@ -4231,6 +4293,8 @@ function openOrderTracking(orderId) {
 function closeSubscreen() {
   appState.customerSubscreen = null;
   renderCustomerApp();
+  const vp = document.getElementById('customer-viewport');
+  if (vp) vp.scrollTo({ top: 0, behavior: 'instant' });
 }
 
 function setOrdersFilter(filterId) {

@@ -39,12 +39,16 @@ function navCustomerTab(tabName) {
   appState.customerTab = tabName;
   appState.customerSubscreen = null;
   renderCustomerApp();
+  const vp = document.getElementById('customer-viewport');
+  if (vp) vp.scrollTo({ top: 0, behavior: 'instant' });
 }
 
 function openCategory(catId) {
   appState.activeCategoryId = catId;
   appState.customerSubscreen = 'category';
   renderCustomerApp();
+  const vp = document.getElementById('customer-viewport');
+  if (vp) vp.scrollTo({ top: 0, behavior: 'instant' });
 }
 
 function openServiceDetail(serviceId) {
@@ -56,6 +60,8 @@ function openServiceDetail(serviceId) {
   }
   appState.customerSubscreen = 'serviceDetail';
   renderCustomerApp();
+  const vp = document.getElementById('customer-viewport');
+  if (vp) vp.scrollTo({ top: 0, behavior: 'instant' });
 }
 
 function selectPackage(pkgId) {
@@ -66,6 +72,8 @@ function selectPackage(pkgId) {
 function proceedToCheckout() {
   appState.customerSubscreen = 'checkout';
   renderCustomerApp();
+  const vp = document.getElementById('customer-viewport');
+  if (vp) vp.scrollTo({ top: 0, behavior: 'instant' });
 }
 
 function setBookingDate(dateStr) {
@@ -303,6 +311,8 @@ function openOrderTracking(orderId) {
 function closeSubscreen() {
   appState.customerSubscreen = null;
   renderCustomerApp();
+  const vp = document.getElementById('customer-viewport');
+  if (vp) vp.scrollTo({ top: 0, behavior: 'instant' });
 }
 
 function setOrdersFilter(filterId) {

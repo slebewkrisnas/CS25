@@ -38,15 +38,19 @@ function renderAdminShell() {
             </div>
           </div>
 
-          <!-- Switch to Customer View -->
-          <button onclick="switchRole('customer')" class="px-3 py-1.5 rounded-xl bg-orange-50 hover:bg-orange-100 text-[#EE7A34] text-xs font-bold border border-orange-200 transition flex items-center gap-1.5 shadow-sm">
+          <!-- Switch to Customer View & Gate -->
+          <button onclick="switchRole('customer')" class="px-2.5 sm:px-3 py-1.5 rounded-xl bg-orange-50 hover:bg-orange-100 text-[#EE7A34] text-xs font-bold border border-orange-200 transition flex items-center gap-1.5 shadow-sm">
             ${ICONS.home}
-            Buka Aplikasi Pelanggan →
+            <span class="hidden sm:inline">Buka Aplikasi Pelanggan →</span>
+            <span class="sm:hidden">App Pelanggan</span>
+          </button>
+          <button onclick="switchRole('gate')" class="sm:hidden px-2 py-1.5 rounded-xl bg-slate-100 text-slate-600 text-xs font-bold border border-slate-200 transition" title="Ganti Peran">
+            ${ICONS.exit}
           </button>
 
           <!-- Admin Profile Badge -->
-          <div class="flex items-center gap-2.5 pl-3 border-l border-slate-200">
-            <div class="w-8 h-8 rounded-full bg-[#16627A] text-white flex items-center justify-center text-xs font-black shadow-sm">
+          <div class="flex items-center gap-2.5 pl-2 sm:pl-3 border-l border-slate-200">
+            <div class="w-8 h-8 rounded-full bg-[#16627A] text-white flex items-center justify-center text-xs font-black shadow-sm shrink-0">
               KA
             </div>
             <div class="hidden lg:block text-left leading-tight">
@@ -59,14 +63,14 @@ function renderAdminShell() {
       </header>
 
       <!-- Main Admin Body (Fixed Left Sidebar + Scrollable Content) -->
-      <div class="flex-1 flex overflow-hidden">
+      <div class="flex-1 flex flex-col md:flex-row overflow-hidden">
         
-        <!-- FIXED LEFT SIDEBAR (PRD Rule 1.C: Width 250px-260px with 10 Modules) -->
-        <aside class="w-[260px] bg-white border-r border-slate-200 flex flex-col justify-between shrink-0 select-none shadow-sm h-[calc(100vh-64px)] sticky top-16">
+        <!-- FIXED LEFT SIDEBAR (PRD Rule 1.C: Width 250px-260px with 10 Modules, Responsive Horizontal on Mobile) -->
+        <aside class="w-full md:w-[260px] bg-white border-b md:border-b-0 md:border-r border-slate-200 flex flex-col justify-between shrink-0 select-none shadow-sm md:h-[calc(100vh-64px)] md:sticky md:top-16">
           
           <!-- Navigation Menu Modules List -->
-          <div class="py-4 px-3 space-y-1 overflow-y-auto custom-scrollbar flex-1">
-            <span class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider px-3 mb-2 block">
+          <div class="py-2.5 md:py-4 px-3 flex md:flex-col overflow-x-auto md:overflow-y-auto no-scrollbar custom-scrollbar gap-1.5 md:gap-0 md:space-y-1 shrink-0">
+            <span class="hidden md:block text-[10px] font-extrabold text-slate-400 uppercase tracking-wider px-3 mb-2">
               10 Modul Manajemen
             </span>
 
@@ -82,7 +86,7 @@ function renderAdminShell() {
               { id: 9, name: 'Rekonsiliasi & Laporan', icon: 'ledger', badge: null },
               { id: 10, name: 'Pengaturan & Log Keamanan', icon: 'settings', badge: 'PDP' }
             ].map(mod => `
-              <button onclick="showAdminModule(${mod.id})" class="w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-bold transition text-left ${activeModule === mod.id ? 'bg-[#16627A] text-white shadow-sm' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'}">
+              <button onclick="showAdminModule(${mod.id})" class="whitespace-nowrap md:whitespace-normal md:w-full flex items-center justify-between px-3 py-2 md:py-2.5 rounded-xl text-xs font-bold transition text-left shrink-0 ${activeModule === mod.id ? 'bg-[#16627A] text-white shadow-sm' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900 bg-slate-50 md:bg-transparent border border-slate-200 md:border-transparent'}">
                 <div class="flex items-center gap-2.5 truncate">
                   <span class="${activeModule === mod.id ? 'text-white' : 'text-slate-400'}">
                     ${ICONS[mod.icon] || ICONS.dashboard}
@@ -90,7 +94,7 @@ function renderAdminShell() {
                   <span class="truncate">${mod.name}</span>
                 </div>
                 ${mod.badge ? `
-                  <span class="text-[9px] font-black px-1.5 py-0.2 rounded-full text-white ${mod.badgeColor || (activeModule === mod.id ? 'bg-white/20 text-white' : 'bg-slate-200 text-slate-700')}">
+                  <span class="ml-2 text-[9px] font-black px-1.5 py-0.2 rounded-full text-white ${mod.badgeColor || (activeModule === mod.id ? 'bg-white/20 text-white' : 'bg-slate-200 text-slate-700')}">
                     ${mod.badge}
                   </span>
                 ` : ''}
@@ -99,7 +103,7 @@ function renderAdminShell() {
           </div>
 
           <!-- Bottom Exit Button (PRD Requirement: Keluar ke Pemilihan Demo) -->
-          <div class="p-3 border-t border-slate-200 shrink-0 bg-slate-50">
+          <div class="hidden md:block p-3 border-t border-slate-200 shrink-0 bg-slate-50">
             <button onclick="switchRole('gate')" class="w-full py-2.5 px-3 rounded-xl bg-white hover:bg-red-50 border border-slate-200 hover:border-red-300 text-red-600 font-extrabold text-xs transition flex items-center justify-center gap-2 shadow-sm">
               ${ICONS.exit}
               Keluar ke Pemilihan Demo
