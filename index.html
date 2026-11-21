@@ -665,7 +665,7 @@ function getInitialState() {
     customers: [
       {
         id: 'c1',
-        name: 'Krisna Anugrah',
+        name: 'Krisnas Anugrah',
         email: 'krisnasanugrah10@gmail.com',
         phone: '0812-3456-7890',
         address: 'Jl. Balai Kota No. 12, Kel. Tikala Ares, Kec. Tikala, Kota Manado',
@@ -711,7 +711,7 @@ function getInitialState() {
       {
         id: 'ORD-2026-8801',
         customerId: 'c1',
-        customerName: 'Krisna Anugrah',
+        customerName: 'Krisnas Anugrah',
         customerPhone: '0812-3456-7890',
         address: 'Jl. Balai Kota No. 12, Kel. Tikala Ares, Kec. Tikala, Kota Manado',
         serviceId: 'srv-ac-split',
@@ -793,7 +793,7 @@ function getInitialState() {
       {
         id: 'ORD-2026-8804',
         customerId: 'c1',
-        customerName: 'Krisna Anugrah',
+        customerName: 'Krisnas Anugrah',
         customerPhone: '0812-3456-7890',
         address: 'Jl. Raya Koka No. 8, Desa Koka, Kec. Tombulu, Manado',
         serviceId: 'srv-move-kos',
@@ -895,14 +895,14 @@ function getInitialState() {
         partnerName: 'Rendra Pratama',
         partnerRole: 'Teknisi AC Senior',
         unread: 1,
-        lastMessage: 'Halo Mas Krisna, saya sudah dekat perempatan Lapangan Tikala ya.',
+        lastMessage: 'Halo Mas Krisnas, saya sudah dekat perempatan Lapangan Tikala ya.',
         lastTime: '10:14',
         messages: [
-          { sender: 'partner', text: 'Halo Mas Krisna, pesanan cuci AC Anda di Tikala Ares sudah saya terima ya.', time: '10:02' },
+          { sender: 'partner', text: 'Halo Mas Krisnas, pesanan cuci AC Anda di Tikala Ares sudah saya terima ya.', time: '10:02' },
           { sender: 'user', text: 'Oke Pak Rendra, posisi sekarang di mana?', time: '10:05' },
           { sender: 'partner', text: 'Ini saya sedang jalan lewat Jl. Balai Kota arah Tikala Ares. Tolong pastikan steker listrik AC ada ya mas.', time: '10:08' },
           { sender: 'user', text: 'Siap pak, sudah siap semua di lantai 2.', time: '10:10' },
-          { sender: 'partner', text: 'Halo Mas Krisna, saya sudah dekat perempatan Lapangan Tikala ya.', time: '10:14' }
+          { sender: 'partner', text: 'Halo Mas Krisnas, saya sudah dekat perempatan Lapangan Tikala ya.', time: '10:14' }
         ]
       },
       {
@@ -924,7 +924,7 @@ function getInitialState() {
       {
         id: 'LOG-441',
         timestamp: '20 Nov 2026 21:10:02',
-        admin: 'Krisna Anugrah (Super Admin)',
+        admin: 'Krisnas Anugrah (Super Admin)',
         action: 'INSPECT_DISPUTE_EVIDENCE',
         target: 'Ticket DSP-104 (Nadia Safira vs Fajar Nugroho)',
         ip: '192.168.1.10',
@@ -933,7 +933,7 @@ function getInitialState() {
       {
         id: 'LOG-440',
         timestamp: '20 Nov 2026 19:42:15',
-        admin: 'Krisna Anugrah (Super Admin)',
+        admin: 'Krisnas Anugrah (Super Admin)',
         action: 'VERIFY_ESCROW_RELEASE',
         target: 'Order ORD-2026-8804 (Rp182.000 release to Bagus Setiawan)',
         ip: '192.168.1.10',
@@ -951,7 +951,7 @@ function getInitialState() {
       {
         id: 'LOG-438',
         timestamp: '20 Nov 2026 14:05:40',
-        admin: 'Krisna Anugrah (Super Admin)',
+        admin: 'Krisnas Anugrah (Super Admin)',
         action: 'CONFIG_FEE_PROTECTION_UPDATE',
         target: 'Set Platform Escrow Fee to Rp 2.000',
         ip: '192.168.1.10',
@@ -1051,7 +1051,7 @@ function renderRoleGate() {
       <!-- Bottom Quick Specs & Reset -->
       <div class="max-w-4xl mx-auto w-full pt-4 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-teal-200">
         <div>
-          Dirancang untuk Evaluasi CEO Krisna, CTO Junior, COO Jabes, CMO Alhillal, CFO Yonathan.
+          Dirancang untuk Evaluasi CEO Krisnas, CTO Junior, COO Jabes, CMO Alhillal, CFO Yonathan.
         </div>
         <div class="flex items-center gap-3">
           <button onclick="resetAppState()" class="text-xs text-white/80 hover:text-white underline font-semibold transition">
@@ -2725,7 +2725,7 @@ function renderAdminShell() {
               KA
             </div>
             <div class="hidden lg:block text-left leading-tight">
-              <span class="text-xs font-black text-slate-800 block">Krisna Anugrah</span>
+              <span class="text-xs font-black text-slate-800 block">Krisnas Anugrah</span>
               <span class="text-[10px] text-emerald-600 font-bold">Super Admin • CEO</span>
             </div>
           </div>
@@ -4022,7 +4022,7 @@ function confirmSimulatedPayment(finalTotal) {
   const newOrder = {
     id: newOrderId,
     customerId: 'c1',
-    customerName: 'Krisna Anugrah',
+    customerName: 'Krisnas Anugrah',
     customerPhone: '0812-3456-7890',
     address: appState.draftBooking.addressDetail,
     serviceId: srv.id,
@@ -4277,7 +4277,7 @@ function approveKYCApplicant(partnerId) {
   appState.auditLogs.unshift({
     id: 'LOG-' + (440 + appState.auditLogs.length + 1),
     timestamp: new Date().toLocaleTimeString('id-ID'),
-    admin: 'Krisna Anugrah (Super Admin)',
+    admin: 'Krisnas Anugrah (Super Admin)',
     action: 'APPROVE_KYC_PARTNER',
     target: `${p.name} (${p.nik}) Dipublikasikan`,
     ip: '192.168.1.10',
@@ -4307,7 +4307,7 @@ function rejectKYCApplicant(partnerId) {
   appState.auditLogs.unshift({
     id: 'LOG-' + (440 + appState.auditLogs.length + 1),
     timestamp: new Date().toLocaleTimeString('id-ID'),
-    admin: 'Krisna Anugrah (Super Admin)',
+    admin: 'Krisnas Anugrah (Super Admin)',
     action: 'REJECT_KYC_PARTNER',
     target: `${p.name}: Alasan '${reason}'`,
     ip: '192.168.1.10',
@@ -4328,7 +4328,7 @@ function toggleSuspendPartner(partnerId) {
   appState.auditLogs.unshift({
     id: 'LOG-' + (440 + appState.auditLogs.length + 1),
     timestamp: new Date().toLocaleTimeString('id-ID'),
-    admin: 'Krisna Anugrah (Super Admin)',
+    admin: 'Krisnas Anugrah (Super Admin)',
     action: p.accountStatus === 'SUSPENDED' ? 'SUSPEND_PARTNER' : 'REACTIVATE_PARTNER',
     target: p.name,
     ip: '192.168.1.10',
@@ -4348,7 +4348,7 @@ function toggleBlockCustomer(customerId) {
   appState.auditLogs.unshift({
     id: 'LOG-' + (440 + appState.auditLogs.length + 1),
     timestamp: new Date().toLocaleTimeString('id-ID'),
-    admin: 'Krisna Anugrah (Super Admin)',
+    admin: 'Krisnas Anugrah (Super Admin)',
     action: c.status === 'BLOCKED' ? 'BLACKLIST_CUSTOMER' : 'UNBLOCK_CUSTOMER',
     target: c.name,
     ip: '192.168.1.10',
@@ -4389,7 +4389,7 @@ function emergencyOverrideOrder(orderId) {
   appState.auditLogs.unshift({
     id: 'LOG-' + (440 + appState.auditLogs.length + 1),
     timestamp: new Date().toLocaleTimeString('id-ID'),
-    admin: 'Krisna Anugrah (Super Admin)',
+    admin: 'Krisnas Anugrah (Super Admin)',
     action: 'EMERGENCY_MANUAL_OVERRIDE',
     target: `${orderId}: Force Completed`,
     ip: '192.168.1.10',
@@ -4452,7 +4452,7 @@ function executeDisputeVerdict(ticketId, verdictNum) {
   appState.auditLogs.unshift({
     id: 'LOG-' + (440 + appState.auditLogs.length + 1),
     timestamp: new Date().toLocaleTimeString('id-ID'),
-    admin: 'Krisna Anugrah (Super Admin)',
+    admin: 'Krisnas Anugrah (Super Admin)',
     action: 'DISPUTE_VERDICT_EXECUTED',
     target: `${ticketId} (Opsi ${verdictNum})`,
     ip: '192.168.1.10',
@@ -4502,7 +4502,7 @@ function rejectPayout(payoutId) {
   appState.auditLogs.unshift({
     id: 'LOG-' + (440 + appState.auditLogs.length + 1),
     timestamp: new Date().toLocaleTimeString('id-ID'),
-    admin: 'Krisna Anugrah (Super Admin)',
+    admin: 'Krisnas Anugrah (Super Admin)',
     action: 'REJECT_BANK_PAYOUT',
     target: `${payoutId}: Ditolak karena '${reason}'`,
     ip: '192.168.1.10',

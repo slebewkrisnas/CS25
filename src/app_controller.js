@@ -152,7 +152,7 @@ function confirmSimulatedPayment(finalTotal) {
   const newOrder = {
     id: newOrderId,
     customerId: 'c1',
-    customerName: 'Krisna Anugrah',
+    customerName: 'Krisnas Anugrah',
     customerPhone: '0812-3456-7890',
     address: appState.draftBooking.addressDetail,
     serviceId: srv.id,
@@ -407,7 +407,7 @@ function approveKYCApplicant(partnerId) {
   appState.auditLogs.unshift({
     id: 'LOG-' + (440 + appState.auditLogs.length + 1),
     timestamp: new Date().toLocaleTimeString('id-ID'),
-    admin: 'Krisna Anugrah (Super Admin)',
+    admin: 'Krisnas Anugrah (Super Admin)',
     action: 'APPROVE_KYC_PARTNER',
     target: `${p.name} (${p.nik}) Dipublikasikan`,
     ip: '192.168.1.10',
@@ -437,7 +437,7 @@ function rejectKYCApplicant(partnerId) {
   appState.auditLogs.unshift({
     id: 'LOG-' + (440 + appState.auditLogs.length + 1),
     timestamp: new Date().toLocaleTimeString('id-ID'),
-    admin: 'Krisna Anugrah (Super Admin)',
+    admin: 'Krisnas Anugrah (Super Admin)',
     action: 'REJECT_KYC_PARTNER',
     target: `${p.name}: Alasan '${reason}'`,
     ip: '192.168.1.10',
@@ -458,7 +458,7 @@ function toggleSuspendPartner(partnerId) {
   appState.auditLogs.unshift({
     id: 'LOG-' + (440 + appState.auditLogs.length + 1),
     timestamp: new Date().toLocaleTimeString('id-ID'),
-    admin: 'Krisna Anugrah (Super Admin)',
+    admin: 'Krisnas Anugrah (Super Admin)',
     action: p.accountStatus === 'SUSPENDED' ? 'SUSPEND_PARTNER' : 'REACTIVATE_PARTNER',
     target: p.name,
     ip: '192.168.1.10',
@@ -478,7 +478,7 @@ function toggleBlockCustomer(customerId) {
   appState.auditLogs.unshift({
     id: 'LOG-' + (440 + appState.auditLogs.length + 1),
     timestamp: new Date().toLocaleTimeString('id-ID'),
-    admin: 'Krisna Anugrah (Super Admin)',
+    admin: 'Krisnas Anugrah (Super Admin)',
     action: c.status === 'BLOCKED' ? 'BLACKLIST_CUSTOMER' : 'UNBLOCK_CUSTOMER',
     target: c.name,
     ip: '192.168.1.10',
@@ -519,7 +519,7 @@ function emergencyOverrideOrder(orderId) {
   appState.auditLogs.unshift({
     id: 'LOG-' + (440 + appState.auditLogs.length + 1),
     timestamp: new Date().toLocaleTimeString('id-ID'),
-    admin: 'Krisna Anugrah (Super Admin)',
+    admin: 'Krisnas Anugrah (Super Admin)',
     action: 'EMERGENCY_MANUAL_OVERRIDE',
     target: `${orderId}: Force Completed`,
     ip: '192.168.1.10',
@@ -582,7 +582,7 @@ function executeDisputeVerdict(ticketId, verdictNum) {
   appState.auditLogs.unshift({
     id: 'LOG-' + (440 + appState.auditLogs.length + 1),
     timestamp: new Date().toLocaleTimeString('id-ID'),
-    admin: 'Krisna Anugrah (Super Admin)',
+    admin: 'Krisnas Anugrah (Super Admin)',
     action: 'DISPUTE_VERDICT_EXECUTED',
     target: `${ticketId} (Opsi ${verdictNum})`,
     ip: '192.168.1.10',
@@ -632,7 +632,7 @@ function rejectPayout(payoutId) {
   appState.auditLogs.unshift({
     id: 'LOG-' + (440 + appState.auditLogs.length + 1),
     timestamp: new Date().toLocaleTimeString('id-ID'),
-    admin: 'Krisna Anugrah (Super Admin)',
+    admin: 'Krisnas Anugrah (Super Admin)',
     action: 'REJECT_BANK_PAYOUT',
     target: `${payoutId}: Ditolak karena '${reason}'`,
     ip: '192.168.1.10',

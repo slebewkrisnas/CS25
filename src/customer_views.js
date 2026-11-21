@@ -83,7 +83,7 @@ function renderRoleGate() {
       <!-- Bottom Quick Specs & Reset -->
       <div class="max-w-4xl mx-auto w-full pt-4 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-teal-200">
         <div>
-          Dirancang untuk Evaluasi CEO Krisna, CTO Junior, COO Jabes, CMO Alhillal, CFO Yonathan.
+          Dirancang untuk Evaluasi CEO Krisnas, CTO Junior, COO Jabes, CMO Alhillal, CFO Yonathan.
         </div>
         <div class="flex items-center gap-3">
           <button onclick="resetAppState()" class="text-xs text-white/80 hover:text-white underline font-semibold transition">

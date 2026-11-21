@@ -369,7 +369,7 @@ function getInitialState() {
     customers: [
       {
         id: 'c1',
-        name: 'Krisna Anugrah',
+        name: 'Krisnas Anugrah',
         email: 'krisnasanugrah10@gmail.com',
         phone: '0812-3456-7890',
         address: 'Jl. Balai Kota No. 12, Kel. Tikala Ares, Kec. Tikala, Kota Manado',
@@ -415,7 +415,7 @@ function getInitialState() {
       {
         id: 'ORD-2026-8801',
         customerId: 'c1',
-        customerName: 'Krisna Anugrah',
+        customerName: 'Krisnas Anugrah',
         customerPhone: '0812-3456-7890',
         address: 'Jl. Balai Kota No. 12, Kel. Tikala Ares, Kec. Tikala, Kota Manado',
         serviceId: 'srv-ac-split',
@@ -497,7 +497,7 @@ function getInitialState() {
       {
         id: 'ORD-2026-8804',
         customerId: 'c1',
-        customerName: 'Krisna Anugrah',
+        customerName: 'Krisnas Anugrah',
         customerPhone: '0812-3456-7890',
         address: 'Jl. Raya Koka No. 8, Desa Koka, Kec. Tombulu, Manado',
         serviceId: 'srv-move-kos',
@@ -599,14 +599,14 @@ function getInitialState() {
         partnerName: 'Rendra Pratama',
         partnerRole: 'Teknisi AC Senior',
         unread: 1,
-        lastMessage: 'Halo Mas Krisna, saya sudah dekat perempatan Lapangan Tikala ya.',
+        lastMessage: 'Halo Mas Krisnas, saya sudah dekat perempatan Lapangan Tikala ya.',
         lastTime: '10:14',
         messages: [
-          { sender: 'partner', text: 'Halo Mas Krisna, pesanan cuci AC Anda di Tikala Ares sudah saya terima ya.', time: '10:02' },
+          { sender: 'partner', text: 'Halo Mas Krisnas, pesanan cuci AC Anda di Tikala Ares sudah saya terima ya.', time: '10:02' },
           { sender: 'user', text: 'Oke Pak Rendra, posisi sekarang di mana?', time: '10:05' },
           { sender: 'partner', text: 'Ini saya sedang jalan lewat Jl. Balai Kota arah Tikala Ares. Tolong pastikan steker listrik AC ada ya mas.', time: '10:08' },
           { sender: 'user', text: 'Siap pak, sudah siap semua di lantai 2.', time: '10:10' },
-          { sender: 'partner', text: 'Halo Mas Krisna, saya sudah dekat perempatan Lapangan Tikala ya.', time: '10:14' }
+          { sender: 'partner', text: 'Halo Mas Krisnas, saya sudah dekat perempatan Lapangan Tikala ya.', time: '10:14' }
         ]
       },
       {
@@ -628,7 +628,7 @@ function getInitialState() {
       {
         id: 'LOG-441',
         timestamp: '20 Nov 2026 21:10:02',
-        admin: 'Krisna Anugrah (Super Admin)',
+        admin: 'Krisnas Anugrah (Super Admin)',
         action: 'INSPECT_DISPUTE_EVIDENCE',
         target: 'Ticket DSP-104 (Nadia Safira vs Fajar Nugroho)',
         ip: '192.168.1.10',
@@ -637,7 +637,7 @@ function getInitialState() {
       {
         id: 'LOG-440',
         timestamp: '20 Nov 2026 19:42:15',
-        admin: 'Krisna Anugrah (Super Admin)',
+        admin: 'Krisnas Anugrah (Super Admin)',
         action: 'VERIFY_ESCROW_RELEASE',
         target: 'Order ORD-2026-8804 (Rp182.000 release to Bagus Setiawan)',
         ip: '192.168.1.10',
@@ -655,7 +655,7 @@ function getInitialState() {
       {
         id: 'LOG-438',
         timestamp: '20 Nov 2026 14:05:40',
-        admin: 'Krisna Anugrah (Super Admin)',
+        admin: 'Krisnas Anugrah (Super Admin)',
         action: 'CONFIG_FEE_PROTECTION_UPDATE',
         target: 'Set Platform Escrow Fee to Rp 2.000',
         ip: '192.168.1.10',

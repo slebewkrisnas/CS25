@@ -54,7 +54,7 @@ function renderAdminShell() {
               KA
             </div>
             <div class="hidden lg:block text-left leading-tight">
-              <span class="text-xs font-black text-slate-800 block">Krisna Anugrah</span>
+              <span class="text-xs font-black text-slate-800 block">Krisnas Anugrah</span>
               <span class="text-[10px] text-emerald-600 font-bold">Super Admin • CEO</span>
             </div>
           </div>
