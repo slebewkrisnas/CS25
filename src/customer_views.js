@@ -306,14 +306,14 @@ function renderHomeScreen() {
           </button>
         ` : ''}
 
-        <!-- Promo Hero Banner (Escrow Vault & Voucher JOKOWI) -->
+        <!-- Promo Hero Banner (Diskon Kupon Promo) -->
         <div onclick="applyPromoQuick()" class="cursor-pointer bg-gradient-to-r from-[#EE7A34] to-[#F98F4E] rounded-2xl p-4 text-white shadow-md relative overflow-hidden active:scale-[0.99] transition">
           <div class="absolute right-0 bottom-0 opacity-15 pointer-events-none transform translate-x-3 translate-y-2">
             <img src="logo_jasaku_extracted.png" alt="Watermark" class="w-24 h-24 object-contain filter brightness-200" onerror="this.src=window.JASAKU_LOGO_BASE64">
           </div>
           <div class="relative z-10 max-w-[80%]">
-            <span class="inline-block text-[10px] font-extrabold uppercase tracking-wider bg-white/20 backdrop-blur-sm px-2.5 py-0.5 rounded-full mb-1.5">Kupon Promo JOKOWI</span>
-            <h3 class="text-sm font-extrabold leading-snug">Diskon Rp15.000 dengan Kupon JOKOWI & Escrow!</h3>
+            <span class="inline-block text-[10px] font-extrabold uppercase tracking-wider bg-white/20 backdrop-blur-sm px-2.5 py-0.5 rounded-full mb-1.5">Kupon Promo</span>
+            <h3 class="text-sm font-extrabold leading-snug">Diskon Rp15.000 dengan Kupon!</h3>
             <p class="text-[11px] text-orange-50 mt-1">Uang dikunci aman • Garansi 1x24 jam beres atau uang kembali</p>
           </div>
         </div>
