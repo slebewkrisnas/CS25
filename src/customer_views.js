@@ -563,13 +563,19 @@ function renderServiceDetailScreen() {
   `;
 }
 
-// 4. CHECKOUT SCREEN (Detail Pesanan: Map Vector, Stepper, Date Picker, Voucher MHSBARU)
+// 4. CHECKOUT SCREEN (Detail Pesanan: Map Vector, Stepper, Date Picker, Voucher JOKOWI & Poin Reward)
 function renderCheckoutScreen() {
   const srv = appState.services.find(s => s.id === appState.draftBooking.serviceId) || appState.services[0];
   const pkgPrice = getSelectedPackagePrice();
   const fee = appState.draftBooking.protectionFee; // Rp2.000
   const discount = appState.draftBooking.voucherApplied ? appState.draftBooking.voucherApplied.discount : 0;
-  const finalTotal = Math.max(0, pkgPrice + fee - discount);
+  
+  // Perhitungan Poin Reward JASAKU (1 Poin = Rp10)
+  const cust = appState.customers.find(c => c.id === 'c1') || { points: 1250 };
+  const customerPoints = cust.points || 0;
+  const maxPointsDiscount = customerPoints * 10;
+  const pointsDiscount = appState.draftBooking.usePoints ? Math.min(maxPointsDiscount, Math.max(0, pkgPrice + fee - discount)) : 0;
+  const finalTotal = Math.max(0, pkgPrice + fee - discount - pointsDiscount);
 
   return `
     <div class="animate-screen pb-24 relative min-h-full">
@@ -749,6 +755,37 @@ function renderCheckoutScreen() {
           `}
         </div>
 
+        <!-- 5.B Tukarkan Poin JASAKU (Loyalty Points) -->
+        <div class="bg-white rounded-2xl p-4 shadow-card border border-slate-100">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-amber-400 to-amber-600 text-white flex items-center justify-center text-lg font-black shadow-sm shrink-0">
+                🪙
+              </div>
+              <div>
+                <div class="flex items-center gap-1.5">
+                  <h2 class="text-xs font-extrabold text-[#0E2A35]">Tukar Poin JASAKU</h2>
+                  <span class="text-[10px] font-bold text-amber-700 bg-amber-100/80 px-2 py-0.5 rounded-full border border-amber-300/50">${customerPoints.toLocaleString('id-ID')} Poin</span>
+                </div>
+                <p class="text-[10px] text-slate-500 mt-0.5">1 Poin = Rp10 • Nilai tukar: <strong class="text-amber-600">${formatRupiah(maxPointsDiscount)}</strong></p>
+              </div>
+            </div>
+            <!-- Interactive Switch -->
+            <button onclick="toggleRedeemPoints()" aria-label="Tukar Poin" class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${appState.draftBooking.usePoints ? 'bg-emerald-500' : 'bg-slate-300'}">
+              <span class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow-md ring-0 transition duration-200 ease-in-out ${appState.draftBooking.usePoints ? 'translate-x-5' : 'translate-x-0'}"></span>
+            </button>
+          </div>
+
+          ${appState.draftBooking.usePoints ? `
+            <div class="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between text-xs text-emerald-700 bg-emerald-50 px-3 py-2 rounded-xl border border-emerald-200">
+              <span class="font-bold">✓ ${Math.round(pointsDiscount / 10).toLocaleString('id-ID')} Poin berhasil ditukarkan!</span>
+              <span class="font-black">- ${formatRupiah(pointsDiscount)}</span>
+            </div>
+          ` : `
+            <p class="text-[10px] text-slate-400 mt-2">Aktifkan untuk menggunakan saldo poin sebagai potongan harga langsung.</p>
+          `}
+        </div>
+
         <!-- 6. Rincian Biaya Transparan & Escrow Protection (PRD Section 7.1) -->
         <div class="bg-white rounded-2xl p-4 shadow-card border border-slate-100 space-y-2">
           <h2 class="text-xs font-extrabold text-[#0E2A35] mb-2.5">6. Rincian Tagihan Transparan</h2>
@@ -770,6 +807,13 @@ function renderCheckoutScreen() {
             </div>
           ` : ''}
 
+          ${pointsDiscount > 0 ? `
+            <div class="flex items-center justify-between text-xs text-amber-600">
+              <span class="flex items-center gap-1">🪙 Potongan Poin JASAKU (${Math.round(pointsDiscount / 10).toLocaleString('id-ID')} Poin)</span>
+              <span class="font-bold">- ${formatRupiah(pointsDiscount)}</span>
+            </div>
+          ` : ''}
+
           <div class="flex items-center justify-between text-xs font-black text-[#0E2A35] pt-2 border-t border-slate-100">
             <span>Total Tagihan (Escrow Vault)</span>
             <span class="text-sm font-black text-[#EE7A34]">${formatRupiah(finalTotal)}</span>
@@ -785,6 +829,9 @@ function renderCheckoutScreen() {
           <p class="text-base font-black text-[#EE7A34] leading-tight">
             ${formatRupiah(finalTotal)}
           </p>
+          ${discount + pointsDiscount > 0 ? `
+            <span class="text-[10px] text-emerald-600 font-bold block">Hemat ${formatRupiah(discount + pointsDiscount)}</span>
+          ` : ''}
         </div>
         <button onclick="openPaymentModal()" class="px-5 py-3 rounded-2xl bg-gradient-to-r from-[#16627A] to-[#1D7C93] hover:opacity-95 text-white font-extrabold text-xs shadow-md transition transform active:scale-95 flex items-center gap-1.5">
           <span>Bayar QRIS Dinamis</span>
@@ -801,7 +848,13 @@ function renderPaymentModal() {
   const pkgPrice = getSelectedPackagePrice();
   const fee = appState.draftBooking.protectionFee;
   const discount = appState.draftBooking.voucherApplied ? appState.draftBooking.voucherApplied.discount : 0;
-  const finalTotal = Math.max(0, pkgPrice + fee - discount);
+  
+  // Perhitungan Poin di Modal QRIS
+  const cust = appState.customers.find(c => c.id === 'c1') || { points: 1250 };
+  const customerPoints = cust.points || 0;
+  const maxPointsDiscount = customerPoints * 10;
+  const pointsDiscount = appState.draftBooking.usePoints ? Math.min(maxPointsDiscount, Math.max(0, pkgPrice + fee - discount)) : 0;
+  const finalTotal = Math.max(0, pkgPrice + fee - discount - pointsDiscount);
 
   return `
     <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 animate-fade-in">
@@ -1103,6 +1156,18 @@ function renderTrackingScreen() {
               <span class="font-bold">- ${formatRupiah(ord.discount)}</span>
             </div>
           ` : ''}
+          ${ord.pointsDiscount > 0 ? `
+            <div class="flex items-center justify-between text-amber-600 text-[11px]">
+              <span>🪙 Tukar Poin JASAKU (${ord.pointsUsed || 0} Poin)</span>
+              <span class="font-bold">- ${formatRupiah(ord.pointsDiscount)}</span>
+            </div>
+          ` : ''}
+          ${ord.status === 'ORDER_COMPLETED' ? `
+            <div class="flex items-center justify-between text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-lg text-[11px] font-bold">
+              <span>🪙 Reward Transaksi Tuntas:</span>
+              <span>+250 Poin JASAKU</span>
+            </div>
+          ` : ''}
           <div class="flex items-center justify-between text-slate-500 text-[11px] pt-1 border-t border-slate-100">
             <span>Metode Bayar</span>
             <span class="font-bold text-slate-700">${ord.paymentMethod}</span>
@@ -1345,6 +1410,23 @@ function renderReviewScreen() {
         </p>
       </div>
 
+      <!-- Reward Poin Card -->
+      <div class="bg-gradient-to-r from-amber-500 via-amber-600 to-[#EE7A34] text-white rounded-2xl p-4 shadow-md flex items-center justify-between text-left">
+        <div class="flex items-center gap-3">
+          <div class="w-11 h-11 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center text-2xl shrink-0">
+            🪙
+          </div>
+          <div>
+            <span class="text-[9px] font-black uppercase tracking-wider bg-white/25 px-2 py-0.5 rounded-full">Reward Transaksi Tuntas</span>
+            <p class="text-xs font-black mt-0.5">+250 Poin JASAKU Diperoleh!</p>
+            <p class="text-[10px] text-amber-100">Total Saldo: ${(appState.customers.find(c=>c.id==='c1')||{points:1250}).points.toLocaleString('id-ID')} Poin</p>
+          </div>
+        </div>
+        <div class="text-right shrink-0">
+          <span class="text-[10px] font-black bg-white text-amber-600 px-2 py-1 rounded-lg shadow-xs">Setara Rp2.500</span>
+        </div>
+      </div>
+
       <!-- 5 Star Picker -->
       <div class="bg-white rounded-3xl p-5 shadow-card border border-slate-100 space-y-3">
         <div class="flex items-center justify-center gap-2 py-2">
@@ -1572,7 +1654,10 @@ function renderProfileTab() {
             <p class="text-[10px] text-teal-100 font-medium">Pesanan</p>
           </div>
           <div class="border-x border-white/15">
-            <p class="text-sm font-extrabold text-white">1.250</p>
+            <p class="text-sm font-extrabold text-amber-300 flex items-center justify-center gap-1">
+              <span>🪙</span>
+              <span>${(cust.points || 1250).toLocaleString('id-ID')}</span>
+            </p>
             <p class="text-[10px] text-teal-100 font-medium">Poin JASAKU</p>
           </div>
           <div>
@@ -1583,6 +1668,22 @@ function renderProfileTab() {
       </div>
 
       <div class="px-4 -mt-3 space-y-3.5 relative z-20">
+        <!-- Loyalty Reward Points Card -->
+        <div class="bg-gradient-to-r from-amber-50 to-orange-50 rounded-2xl p-4 shadow-card border border-amber-200/80 flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-amber-400 to-amber-600 text-white flex items-center justify-center text-lg font-black shadow-sm shrink-0">
+              🪙
+            </div>
+            <div>
+              <p class="text-xs font-bold text-[#0E2A35]">Saldo Poin: ${(cust.points || 1250).toLocaleString('id-ID')} Poin</p>
+              <p class="text-[10px] text-slate-500 mt-0.5">Nilai tukar: <strong class="text-amber-600">${formatRupiah((cust.points || 1250) * 10)}</strong> (Bisa ditukar diskon saat checkout!)</p>
+            </div>
+          </div>
+          <button onclick="navCustomerTab('home')" class="px-3 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white text-[11px] font-extrabold transition shrink-0 shadow-xs">
+            Tukar Poin
+          </button>
+        </div>
+
         <!-- Data Diri Card (CS25 Style) -->
         <div class="bg-white rounded-2xl p-4 shadow-card border border-slate-100">
           <h2 class="text-xs font-extrabold uppercase tracking-wider text-slate-400 mb-3">Data Diri</h2>

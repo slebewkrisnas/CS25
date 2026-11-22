@@ -36,6 +36,8 @@ function getInitialState() {
       notes: 'AC kamar lantai 2 meneteskan air jika dinyalakan lebih dari 1 jam.',
       voucherInput: '',
       voucherApplied: null, // { code: 'JOKOWI', discount: 15000 }
+      usePoints: false,
+      pointsDiscount: 0,
       protectionFee: 2000,
       paymentMethod: 'qris' // 'qris' | 'va_bca' | 'va_mandiri'
     },
@@ -374,6 +376,7 @@ function getInitialState() {
         phone: '0812-3456-7890',
         address: 'Jl. Balai Kota No. 12, Kel. Tikala Ares, Kec. Tikala, Kota Manado',
         ordersCount: 8,
+        points: 1250,
         totalGmvSpent: 940000,
         complaintsCount: 0,
         status: 'ACTIVE' // 'ACTIVE' | 'BLOCKED'

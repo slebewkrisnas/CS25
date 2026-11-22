@@ -58,9 +58,11 @@ function openServiceDetail(serviceId) {
   if (srv.packages && srv.packages.length > 0) {
     appState.draftBooking.packageId = srv.packages[0].id;
   }
-  // Reset kupon agar alur pemesanan normal tidak otomatis terdiskon (harus diketik & diterapkan manual)
+  // Reset kupon & poin agar alur pemesanan normal bersih di awal
   appState.draftBooking.voucherApplied = null;
   appState.draftBooking.voucherInput = '';
+  appState.draftBooking.usePoints = false;
+  appState.draftBooking.pointsDiscount = 0;
   appState.customerSubscreen = 'serviceDetail';
   renderCustomerApp();
   const vp = document.getElementById('customer-viewport');
@@ -127,6 +129,27 @@ function removeVoucherCode() {
   renderCustomerApp();
 }
 
+function toggleRedeemPoints() {
+  const cust = appState.customers.find(c => c.id === 'c1') || { points: 1250 };
+  const currentPoints = cust.points || 0;
+  if (currentPoints <= 0) {
+    showToast('⚠️ Anda belum memiliki Poin JASAKU untuk ditukarkan.');
+    return;
+  }
+  appState.draftBooking.usePoints = !appState.draftBooking.usePoints;
+  if (appState.draftBooking.usePoints) {
+    const pkgPrice = getSelectedPackagePrice();
+    const fee = appState.draftBooking.protectionFee;
+    const couponDiscount = appState.draftBooking.voucherApplied ? appState.draftBooking.voucherApplied.discount : 0;
+    const maxDiscount = currentPoints * 10;
+    const actualDiscount = Math.min(maxDiscount, Math.max(0, pkgPrice + fee - couponDiscount));
+    showToast(`🪙 ${currentPoints.toLocaleString('id-ID')} Poin JASAKU ditukarkan! Diskon ${formatRupiah(actualDiscount)}.`);
+  } else {
+    showToast('Tukar poin dibatalkan.');
+  }
+  renderCustomerApp();
+}
+
 function openPaymentModal() {
   const modalLayer = document.getElementById('customer-modal-layer');
   if (modalLayer) {
@@ -149,6 +172,20 @@ function confirmSimulatedPayment(finalTotal) {
   const partner = appState.partners.find(p => p.id === srv.partnerId) || appState.partners[0];
   const newOrderId = 'ORD-2026-' + (8800 + appState.orders.length + 1);
 
+  // Perhitungan diskon kupon & potongan tukar poin
+  const cust = appState.customers.find(c => c.id === 'c1');
+  const pkgPrice = getSelectedPackagePrice();
+  const fee = appState.draftBooking.protectionFee;
+  const couponDiscount = appState.draftBooking.voucherApplied ? appState.draftBooking.voucherApplied.discount : 0;
+  const currentPoints = cust ? (cust.points || 0) : 0;
+  const pointsDiscount = appState.draftBooking.usePoints ? Math.min(currentPoints * 10, Math.max(0, pkgPrice + fee - couponDiscount)) : 0;
+  const pointsUsed = appState.draftBooking.usePoints ? Math.round(pointsDiscount / 10) : 0;
+
+  // Kurangi poin pelanggan jika digunakan
+  if (cust && pointsUsed > 0) {
+    cust.points = Math.max(0, (cust.points || 0) - pointsUsed);
+  }
+
   const newOrder = {
     id: newOrderId,
     customerId: 'c1',
@@ -163,7 +200,9 @@ function confirmSimulatedPayment(finalTotal) {
     partnerPhone: partner.phone,
     basePrice: getSelectedPackagePrice(),
     protectionFee: appState.draftBooking.protectionFee,
-    discount: appState.draftBooking.voucherApplied ? appState.draftBooking.voucherApplied.discount : 0,
+    discount: couponDiscount,
+    pointsUsed: pointsUsed,
+    pointsDiscount: pointsDiscount,
     totalInvoice: finalTotal,
     paymentMethod: appState.draftBooking.paymentMethod === 'qris' ? 'QRIS Dinamis' : 'BCA Virtual Account',
     paidAt: 'Baru saja',
@@ -190,9 +229,11 @@ function confirmSimulatedPayment(finalTotal) {
     status: 'SUCCESS'
   });
 
-  // Reset draft booking voucher for next session
+  // Reset draft booking voucher & points for next session
   appState.draftBooking.voucherApplied = null;
   appState.draftBooking.voucherInput = '';
+  appState.draftBooking.usePoints = false;
+  appState.draftBooking.pointsDiscount = 0;
 
   showToast('✅ Pembayaran Berhasil! Dana dikunci aman di Rekening Bersama (Escrow Vault).');
   appState.customerSubscreen = 'tracking';
@@ -251,7 +292,15 @@ function confirmOrderFinish(orderId) {
     status: 'SUCCESS'
   });
 
-  showToast('🎉 Dana berhasil dirilis ke dompet mitra (dipotong komisi 10%). Terima kasih!');
+  // Reward Customer Loyalty Points (+250 Poin setiap transaksi selesai)
+  const earnedPoints = 250;
+  const customer = appState.customers.find(c => c.id === 'c1');
+  if (customer) {
+    customer.points = (customer.points || 0) + earnedPoints;
+  }
+  ord.earnedPoints = earnedPoints;
+
+  showToast(`🎉 Pekerjaan tuntas! Dana dirilis ke mitra & Anda mendapatkan +${earnedPoints} Poin JASAKU!`);
   appState.customerSubscreen = 'review';
   renderCustomerApp();
 }
